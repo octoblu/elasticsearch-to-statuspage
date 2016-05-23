@@ -1,5 +1,5 @@
 dashdash = require 'dashdash'
-ElasticSearchtoStatusPage = require './src/elasticsearch-to-statuspage'
+ReporterRunner = require './src/reporter-runner'
 
 options = [
   {
@@ -40,8 +40,8 @@ if opts.help
   console.log 'usage: node command.js [OPTIONS]\n' + 'options:\n' + help
   process.exit 0
 
-elasticSearchToStatusPage = new ElasticSearchtoStatusPage opts
-elasticSearchToStatusPage.run (error) =>
+reporterRunner = new ReporterRunner opts
+reporterRunner.run (error) =>
   if error
     console.error error.stack
     process.exit 1

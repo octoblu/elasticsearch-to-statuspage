@@ -1,18 +1,18 @@
 _ = require 'lodash'
 StatusPageReporter = require './statuspage-reporter'
-meshbluCoreCapacityQuery = require './queries/meshblu-core-capacity.cson'
+nanocyteEngineCapacityQuery = require '../queries/nanocyte-engine-capacity.cson'
 
-class MeshbluCoreCapacityReporter extends StatusPageReporter
+class NanocyteEngineCapacityReporter extends StatusPageReporter
   page_id: 'c3jcws6d2z45'
-  metric_id: '4d6vcs17cyps'
+  metric_id: 'c106mdk7qwyg'
 
   search: (callback) =>
-    @client.search meshbluCoreCapacityQuery, (error, results, statusCode) =>
+    @client.search nanocyteEngineCapacityQuery, (error, results, statusCode) =>
       {buckets} = results.aggregations.recent.byType
       results = {total: 0}
       _.each buckets, (bucket) =>
         {value} = bucket.sumElapsedTime
-        key = bucket.key.replace /meshblu-core-dispatcher:/, ''
+        key = bucket.key.replace /metric:nanocyte-engine-simple:/, ''
         results.total += value
         results[key] = value
       callback null, results
@@ -28,4 +28,4 @@ class MeshbluCoreCapacityReporter extends StatusPageReporter
 
       @post data, callback
 
-module.exports = MeshbluCoreCapacityReporter
+module.exports = NanocyteEngineCapacityReporter
