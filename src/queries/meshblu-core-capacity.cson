@@ -1,0 +1,24 @@
+index: 'metric:meshblu-core-dispatcher-2*'
+body:
+  size: 0
+  from: 0
+  aggs:
+    recent:
+      filter: bool:
+        must: [ {
+          range: date:
+            gte: 'now-5m'
+            lte: 'now'
+            format: 'epoch_millis'
+        } ]
+        must_not: [ {
+          query: match: 'type.raw':
+            query: 'meshblu-core-dispatcher:task'
+            type: 'phrase'
+        } ]
+      aggs: 'byType':
+        terms:
+          field: 'type.raw'
+          size: 5
+          order: _term: 'desc'
+        aggs: 'sumElapsedTime': sum: field: 'elapsedTime'
