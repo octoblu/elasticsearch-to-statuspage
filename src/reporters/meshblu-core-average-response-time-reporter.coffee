@@ -8,7 +8,7 @@ class MeshbluCoreAverageResponseTimeReporter extends StatusPageReporter
 
   search: (callback) =>
     @client.search meshbluCoreAverageResponseTimeQuery, (error, results, statusCode) =>
-      callback null, results.aggregations.recent.avg.value
+      callback null, results.aggregations?.recent.avg.value
 
   run: (callback) =>
     @search (error, results) =>

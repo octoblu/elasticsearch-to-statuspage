@@ -8,7 +8,7 @@ class NanocyteEngineCapacityReporter extends StatusPageReporter
 
   search: (callback) =>
     @client.search nanocyteEngineCapacityQuery, (error, results, statusCode) =>
-      {buckets} = results.aggregations.recent.byType
+      {buckets} = results.aggregations?.recent.byType
       results = {total: 0}
       _.each buckets, (bucket) =>
         {value} = bucket.sumElapsedTime
