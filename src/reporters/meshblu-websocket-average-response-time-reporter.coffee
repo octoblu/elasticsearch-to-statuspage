@@ -1,13 +1,13 @@
 _ = require 'lodash'
 StatusPageReporter = require './statuspage-reporter'
-meshbluCoreAverageResponseTimeQuery = require '../queries/meshblu-core-average-response-time.cson'
+meshbluWebsocketAverageResponseTimeQuery = require '../queries/meshblu-websocket-average-response-time.cson'
 
-class MeshbluCoreAverageResponseTimeReporter extends StatusPageReporter
+class MeshbluWebsocketAverageResponseTimeReporter extends StatusPageReporter
   page_id: 'c3jcws6d2z45'
-  metric_id: '55nnqw88pczc'
+  metric_id: 'srms68y38p3n'
 
   search: (callback) =>
-    @client.search meshbluCoreAverageResponseTimeQuery, (error, results, statusCode) =>
+    @client.search meshbluWebsocketAverageResponseTimeQuery, (error, results, statusCode) =>
       callback null, results.aggregations?.recent.avg.value
 
   run: (callback) =>
@@ -22,4 +22,4 @@ class MeshbluCoreAverageResponseTimeReporter extends StatusPageReporter
 
       @post data, callback
 
-module.exports = MeshbluCoreAverageResponseTimeReporter
+module.exports = MeshbluWebsocketAverageResponseTimeReporter

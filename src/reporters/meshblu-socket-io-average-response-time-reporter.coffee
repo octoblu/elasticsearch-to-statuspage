@@ -14,7 +14,7 @@ class MeshbluSocketIOAverageResponseTimeReporter extends StatusPageReporter
     @search (error, results) =>
       return callback error if error?
 
-      value = Math.floor(results)
+      value = Math.floor(results ? 0)
 
       data =
         timestamp: Date.now() / 1000
