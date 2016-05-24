@@ -27,17 +27,17 @@ class ReporterRunner
 
   run: (callback) =>
     tasks = [
-      # async.apply @meshbluCoreCapacityReporter.run
-      # async.apply @meshbluCoreAverageResponseTimeReporter.run
-      # async.apply @meshbluHttpAverageResponseTimeReporter.run
-      # async.apply @meshbluSocketIOAverageResponseTimeReporter.run
-      # async.apply @meshbluWebsocketAverageResponseTimeReporter.run
-      # async.apply @meshbluMqttAverageResponseTimeReporter.run
-      # async.apply @meshbluXmppAverageResponseTimeReporter.run
-      # async.apply @meshbluAmqpAverageResponseTimeReporter.run
-      # async.apply @meshbluCoapAverageResponseTimeReporter.run
+      async.apply @meshbluCoreCapacityReporter.run
+      async.apply @meshbluCoreAverageResponseTimeReporter.run
+      async.apply @meshbluHttpAverageResponseTimeReporter.run
+      async.apply @meshbluSocketIOAverageResponseTimeReporter.run
+      async.apply @meshbluWebsocketAverageResponseTimeReporter.run
+      async.apply @meshbluMqttAverageResponseTimeReporter.run
+      async.apply @meshbluXmppAverageResponseTimeReporter.run
+      async.apply @meshbluAmqpAverageResponseTimeReporter.run
+      async.apply @meshbluCoapAverageResponseTimeReporter.run
       async.apply @meshbluCoreJobCountReporter.run
-      # async.apply @nanocyteEngineCapacityReporter.run
+      async.apply @nanocyteEngineCapacityReporter.run
     ]
     async.parallel tasks, callback
 
