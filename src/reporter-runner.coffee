@@ -7,6 +7,7 @@ MeshbluWebsocketAverageResponseTimeReporter = require './reporters/meshblu-webso
 MeshbluMqttAverageResponseTimeReporter = require './reporters/meshblu-mqtt-average-response-time-reporter'
 MeshbluXmppAverageResponseTimeReporter = require './reporters/meshblu-xmpp-average-response-time-reporter'
 MeshbluAmqpAverageResponseTimeReporter = require './reporters/meshblu-amqp-average-response-time-reporter'
+MeshbluCoapAverageResponseTimeReporter = require './reporters/meshblu-coap-average-response-time-reporter'
 NanoctyeEngineCapacityReporter = require './reporters/nanocyte-engine-capacity-reporter'
 
 class ReporterRunner
@@ -19,6 +20,7 @@ class ReporterRunner
     @meshbluMqttAverageResponseTimeReporter = new MeshbluMqttAverageResponseTimeReporter {@elasticsearch_uri, @statuspage_api_key, @dry_run}
     @meshbluXmppAverageResponseTimeReporter = new MeshbluXmppAverageResponseTimeReporter {@elasticsearch_uri, @statuspage_api_key, @dry_run}
     @meshbluAmqpAverageResponseTimeReporter = new MeshbluAmqpAverageResponseTimeReporter {@elasticsearch_uri, @statuspage_api_key, @dry_run}
+    @meshbluCoapAverageResponseTimeReporter = new MeshbluCoapAverageResponseTimeReporter {@elasticsearch_uri, @statuspage_api_key, @dry_run}
     @nanocyteEngineCapacityReporter = new NanoctyeEngineCapacityReporter {@elasticsearch_uri, @statuspage_api_key, @dry_run}
 
   run: (callback) =>
@@ -31,6 +33,7 @@ class ReporterRunner
       async.apply @meshbluMqttAverageResponseTimeReporter.run
       async.apply @meshbluXmppAverageResponseTimeReporter.run
       async.apply @meshbluAmqpAverageResponseTimeReporter.run
+      async.apply @meshbluCoapAverageResponseTimeReporter.run
       async.apply @nanocyteEngineCapacityReporter.run
     ]
     async.parallel tasks, callback

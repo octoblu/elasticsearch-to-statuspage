@@ -1,4 +1,4 @@
-index: 'metric:meshblu-core-worker-amqp-2*'
+index: 'metric:meshblu-core-protocol-adapter-coap-2*'
 body:
   size: 0
   from: 0
