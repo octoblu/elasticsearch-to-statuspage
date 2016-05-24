@@ -13,6 +13,11 @@ options = [
     help: 'Print this help and exit.'
   }
   {
+    name: 'dry-run'
+    type: 'bool'
+    help: 'Print results, do not post to statuspage.io'
+  }
+  {
     names: ['elasticsearch-uri', 'e']
     type: 'string'
     env: 'ELASTICSEARCH_URI'

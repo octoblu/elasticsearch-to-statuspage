@@ -7,8 +7,8 @@ body:
       filter: bool:
         must: [ {
           range: date:
-            gte: 'now-5m'
-            lte: 'now'
+            gte: 'now-2m'
+            lte: 'now-1m'
             format: 'epoch_millis'
         } ]
         must_not: []

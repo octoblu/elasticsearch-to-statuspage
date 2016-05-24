@@ -16,9 +16,6 @@ body:
             query: 'meshblu-core-dispatcher:task'
             type: 'phrase'
         } ]
-      aggs: 'byType':
-        terms:
-          field: 'type.raw'
-          size: 5
-          order: _term: 'desc'
-        aggs: 'sumElapsedTime': sum: field: 'elapsedTime'
+      aggs: avg:
+        avg:
+          field: 'elapsedTime'
