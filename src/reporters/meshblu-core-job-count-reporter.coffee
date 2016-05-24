@@ -14,6 +14,7 @@ class MeshbluCoreJobCountReporter extends StatusPageReporter
     @search (error, results) =>
       return callback error if error?
 
+      # sample-rate 0.001
       value = Math.floor((results * 1000) / 60)
 
       data =
