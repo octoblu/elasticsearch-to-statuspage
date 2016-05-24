@@ -1,4 +1,4 @@
-index: 'metric:meshblu-core-dispatcher-2*'
+index: 'metric:meshblu-core-protocol-adapter-http-2*'
 body:
   size: 0
   from: 0
@@ -10,11 +10,6 @@ body:
             gte: 'now-2m'
             lte: 'now-1m'
             format: 'epoch_millis'
-        }
-        {
-          query: match: 'type.raw':
-            query: 'meshblu-core-dispatcher:job'
-            type: 'phrase'
         } ]
         must_not: []
       aggs: avg:
