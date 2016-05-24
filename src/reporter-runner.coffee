@@ -8,6 +8,7 @@ MeshbluMqttAverageResponseTimeReporter = require './reporters/meshblu-mqtt-avera
 MeshbluXmppAverageResponseTimeReporter = require './reporters/meshblu-xmpp-average-response-time-reporter'
 MeshbluAmqpAverageResponseTimeReporter = require './reporters/meshblu-amqp-average-response-time-reporter'
 MeshbluCoapAverageResponseTimeReporter = require './reporters/meshblu-coap-average-response-time-reporter'
+MeshbluCoreJobCountReporter = require './reporters/meshblu-core-job-count-reporter'
 NanoctyeEngineCapacityReporter = require './reporters/nanocyte-engine-capacity-reporter'
 
 class ReporterRunner
@@ -21,20 +22,22 @@ class ReporterRunner
     @meshbluXmppAverageResponseTimeReporter = new MeshbluXmppAverageResponseTimeReporter {@elasticsearch_uri, @statuspage_api_key, @dry_run}
     @meshbluAmqpAverageResponseTimeReporter = new MeshbluAmqpAverageResponseTimeReporter {@elasticsearch_uri, @statuspage_api_key, @dry_run}
     @meshbluCoapAverageResponseTimeReporter = new MeshbluCoapAverageResponseTimeReporter {@elasticsearch_uri, @statuspage_api_key, @dry_run}
+    @meshbluCoreJobCountReporter = new MeshbluCoreJobCountReporter {@elasticsearch_uri, @statuspage_api_key, @dry_run}
     @nanocyteEngineCapacityReporter = new NanoctyeEngineCapacityReporter {@elasticsearch_uri, @statuspage_api_key, @dry_run}
 
   run: (callback) =>
     tasks = [
-      async.apply @meshbluCoreCapacityReporter.run
-      async.apply @meshbluCoreAverageResponseTimeReporter.run
-      async.apply @meshbluHttpAverageResponseTimeReporter.run
-      async.apply @meshbluSocketIOAverageResponseTimeReporter.run
-      async.apply @meshbluWebsocketAverageResponseTimeReporter.run
-      async.apply @meshbluMqttAverageResponseTimeReporter.run
-      async.apply @meshbluXmppAverageResponseTimeReporter.run
-      async.apply @meshbluAmqpAverageResponseTimeReporter.run
-      async.apply @meshbluCoapAverageResponseTimeReporter.run
-      async.apply @nanocyteEngineCapacityReporter.run
+      # async.apply @meshbluCoreCapacityReporter.run
+      # async.apply @meshbluCoreAverageResponseTimeReporter.run
+      # async.apply @meshbluHttpAverageResponseTimeReporter.run
+      # async.apply @meshbluSocketIOAverageResponseTimeReporter.run
+      # async.apply @meshbluWebsocketAverageResponseTimeReporter.run
+      # async.apply @meshbluMqttAverageResponseTimeReporter.run
+      # async.apply @meshbluXmppAverageResponseTimeReporter.run
+      # async.apply @meshbluAmqpAverageResponseTimeReporter.run
+      # async.apply @meshbluCoapAverageResponseTimeReporter.run
+      async.apply @meshbluCoreJobCountReporter.run
+      # async.apply @nanocyteEngineCapacityReporter.run
     ]
     async.parallel tasks, callback
 
