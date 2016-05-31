@@ -1,4 +1,4 @@
-index: 'metric:nanocyte-engine-simple:sampled-2*'
+index: 'metric:nanocyte-engine-simple-2*'
 body:
   size: 0
   from: 0
