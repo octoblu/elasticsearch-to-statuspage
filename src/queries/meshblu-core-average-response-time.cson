@@ -1,4 +1,4 @@
-index: 'metric:meshblu-core-dispatcher-2*'
+index: 'metric:meshblu-core-dispatcher:sampled-2*'
 body:
   size: 0
   from: 0

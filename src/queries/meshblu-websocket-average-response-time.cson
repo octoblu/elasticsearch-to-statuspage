@@ -1,4 +1,4 @@
-index: 'metric:meshblu-core-protocol-adapter-websocket-2*'
+index: 'metric:meshblu-core-protocol-adapter-websocket:sampled-2*'
 body:
   size: 0
   from: 0

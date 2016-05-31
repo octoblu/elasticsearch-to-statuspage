@@ -1,4 +1,4 @@
-index: 'metric:meshblu-core-protocol-adapter-socket-io-2*'
+index: 'metric:meshblu-core-protocol-adapter-socket-io:sampled-2*'
 body:
   size: 0
   from: 0

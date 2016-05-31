@@ -1,4 +1,4 @@
-index: 'metric:meshblu-core-protocol-adapter-xmpp-2*'
+index: 'metric:meshblu-core-protocol-adapter-xmpp:sampled-2*'
 body:
   size: 0
   from: 0
