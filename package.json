@@ -1,6 +1,6 @@
 {
   "name": "octoblu-metrics-elasticsearch-to-statuspage",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "description": "Report elasticsearch to statuspage",
   "main": "command.js",
   "scripts": {
