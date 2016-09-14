@@ -1,13 +1,21 @@
-_ = require 'lodash'
-StatusPageReporter = require './statuspage-reporter'
-meshbluCoreAverageResponseTimeQuery = require '../queries/meshblu-core-average-response-time.cson'
+_     = require 'lodash'
+query = require '../queries/meshblu-core-average-response-time.cson'
 
-class MeshbluCoreAverageResponseTimeReporter extends StatusPageReporter
-  page_id: 'c3jcws6d2z45'
-  metric_id: '55nnqw88pczc'
+METRIC_IDS=
+  'hpe': 'g7x9rj4gbcvr'
+  'major': '55nnqw88pczc'
+
+class MeshbluCoreAverageResponseTimeReporter
+  constructor: ({@cluster,@client,@statusPageReporter}) ->
+    throw new Error 'Missing cluster' unless @cluster?
+    throw new Error 'Missing client' unless @client?
+    throw new Error 'Missing statusPageReporter' unless @statusPageReporter?
+
+    @metricId = METRIC_IDS[@cluster]
+    throw new Error 'Missing Metric ID for cluster' unless @metricId?
 
   search: (callback) =>
-    @client.search meshbluCoreAverageResponseTimeQuery, (error, results, statusCode) =>
+    @client.search query, (error, results, statusCode) =>
       callback null, results.aggregations?.recent.avg.value
 
   run: (callback) =>
@@ -20,6 +28,6 @@ class MeshbluCoreAverageResponseTimeReporter extends StatusPageReporter
         timestamp: Date.now() / 1000
         value: value
 
-      @post data, callback
+      @statusPageReporter.post @metricId, data, callback
 
 module.exports = MeshbluCoreAverageResponseTimeReporter

@@ -1,13 +1,22 @@
-_ = require 'lodash'
-StatusPageReporter = require './statuspage-reporter'
-nanocyteEngineCapacityQuery = require '../queries/nanocyte-engine-capacity.cson'
+_     = require 'lodash'
+query = require '../queries/nanocyte-engine-capacity.cson'
 
-class NanocyteEngineCapacityReporter extends StatusPageReporter
-  page_id: 'c3jcws6d2z45'
-  metric_id: 'c106mdk7qwyg'
+METRIC_IDS=
+  'hpe': 'bztqsg88cs3g'
+  'major': 'c106mdk7qwyg'
+  'minor': 'c106mdk7qwyg'
+
+class NanocyteEngineCapacityReporter
+  constructor: ({@cluster,@client,@statusPageReporter}) ->
+    throw new Error 'Missing cluster' unless @cluster?
+    throw new Error 'Missing client' unless @client?
+    throw new Error 'Missing statusPageReporter' unless @statusPageReporter?
+
+    @metricId = METRIC_IDS[@cluster]
+    throw new Error 'Missing Metric ID for cluster' unless @metricId?
 
   search: (callback) =>
-    @client.search nanocyteEngineCapacityQuery, (error, results, statusCode) =>
+    @client.search query, (error, results, statusCode) =>
       {buckets} = results.aggregations?.recent.byType
       results = {total: 0}
       _.each buckets, (bucket) =>
@@ -21,11 +30,12 @@ class NanocyteEngineCapacityReporter extends StatusPageReporter
     @search (error, results) =>
       return callback error if error?
 
+      results.job ?= 0
       value = Math.floor((results.job / results.total) * 100)
       data =
         timestamp: Date.now() / 1000
         value: value
 
-      @post data, callback
+      @statusPageReporter.post @metricId, data, callback
 
 module.exports = NanocyteEngineCapacityReporter

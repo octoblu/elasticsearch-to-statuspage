@@ -31,6 +31,20 @@ options = [
     help: 'StatusPage.io API key'
     helpArg: 'KEY'
   }
+  {
+    names: ['statuspage-page-id', 'p']
+    type: 'string'
+    env: 'STATUSPAGE_PAGE_ID'
+    help: 'StatusPage.io Page ID'
+    helpArg: 'PAGE_ID'
+  }
+  {
+    names: ['cluster', 'c']
+    type: 'string'
+    env: 'CLUSTER'
+    help: 'Cluster to use'
+    helpArg: 'PAGE_ID'
+  }
 ]
 
 parser = dashdash.createParser(options: options)
@@ -45,7 +59,14 @@ if opts.help
   console.log 'usage: node command.js [OPTIONS]\n' + 'options:\n' + help
   process.exit 0
 
-reporterRunner = new ReporterRunner opts
+options = {
+  cluster: opts.cluster,
+  pageId: opts.statuspage_page_id,
+  statusPageApiKey: opts.statuspage_api_key,
+  elasticSearchUri: opts.elasticsearch_uri,
+  dryRun: opts.dry_run,
+}
+reporterRunner = new ReporterRunner options
 reporterRunner.run (error) =>
   if error
     console.error error.stack

@@ -1,13 +1,21 @@
-_ = require 'lodash'
-StatusPageReporter = require './statuspage-reporter'
-meshbluCoapAverageResponseTimeQuery = require '../queries/meshblu-coap-average-response-time.cson'
+_     = require 'lodash'
+query = require '../queries/meshblu-coap-average-response-time.cson'
 
-class MeshbluCoapAverageResponseTimeReporter extends StatusPageReporter
-  page_id: 'c3jcws6d2z45'
-  metric_id: '4phn8v4njdlt'
+METRIC_IDS=
+  'hpe': '4ypfhsk4y458'
+  'major': '4phn8v4njdlt'
+
+class MeshbluCoapAverageResponseTimeReporter
+  constructor: ({@cluster,@client,@statusPageReporter}) ->
+    throw new Error 'Missing cluster' unless @cluster?
+    throw new Error 'Missing client' unless @client?
+    throw new Error 'Missing statusPageReporter' unless @statusPageReporter?
+
+    @metricId = METRIC_IDS[@cluster]
+    throw new Error 'Missing Metric ID for cluster' unless @metricId?
 
   search: (callback) =>
-    @client.search meshbluCoapAverageResponseTimeQuery, (error, results, statusCode) =>
+    @client.search query, (error, results, statusCode) =>
       callback null, results.aggregations?.recent.avg.value
 
   run: (callback) =>
@@ -20,6 +28,6 @@ class MeshbluCoapAverageResponseTimeReporter extends StatusPageReporter
         timestamp: Date.now() / 1000
         value: value
 
-      @post data, callback
+      @statusPageReporter.post @metricId, data, callback
 
 module.exports = MeshbluCoapAverageResponseTimeReporter

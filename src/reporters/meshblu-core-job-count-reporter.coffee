@@ -1,13 +1,21 @@
-_ = require 'lodash'
-StatusPageReporter = require './statuspage-reporter'
-meshbluCoreJobCountQuery = require '../queries/meshblu-core-job-count.cson'
+_     = require 'lodash'
+query = require '../queries/meshblu-core-job-count.cson'
 
-class MeshbluCoreJobCountReporter extends StatusPageReporter
-  page_id: 'c3jcws6d2z45'
-  metric_id: '7xjrf0gpcn2s'
+METRIC_IDS=
+  'hpe': 'y8cv8jgjfs9p'
+  'major': '7xjrf0gpcn2s'
+
+class MeshbluCoreJobCountReporter
+  constructor: ({@cluster,@client,@statusPageReporter}) ->
+    throw new Error 'Missing cluster' unless @cluster?
+    throw new Error 'Missing client' unless @client?
+    throw new Error 'Missing statusPageReporter' unless @statusPageReporter?
+
+    @metricId = METRIC_IDS[@cluster]
+    throw new Error 'Missing Metric ID for cluster' unless @metricId?
 
   search: (callback) =>
-    @client.count meshbluCoreJobCountQuery, (error, results, statusCode) =>
+    @client.count query, (error, results, statusCode) =>
       callback null, results.count
 
   run: (callback) =>
@@ -21,6 +29,6 @@ class MeshbluCoreJobCountReporter extends StatusPageReporter
         timestamp: Date.now() / 1000
         value: value
 
-      @post data, callback
+      @statusPageReporter.post @metricId, data, callback
 
 module.exports = MeshbluCoreJobCountReporter
