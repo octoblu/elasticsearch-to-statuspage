@@ -4,6 +4,7 @@ query = require '../queries/meshblu-xmpp-average-response-time.cson'
 METRIC_IDS=
   'hpe': 'bltbt2625xzj'
   'major': 'wqq7tff28d2z'
+  'minor': 'wqq7tff28d2z'
 
 class MeshbluXmppAverageResponseTimeReporter
   constructor: ({@cluster,@client,@statusPageReporter}) ->

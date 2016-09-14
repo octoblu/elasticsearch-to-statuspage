@@ -4,6 +4,7 @@ query = require '../queries/meshblu-socket-io-average-response-time.cson'
 METRIC_IDS=
   'hpe': '8fwcsp185c11'
   'major': 't9j454w95wj2'
+  'minor': 't9j454w95wj2'
 
 class MeshbluSocketIOAverageResponseTimeReporter
   constructor: ({@cluster,@client,@statusPageReporter}) ->

@@ -4,6 +4,7 @@ query = require '../queries/meshblu-core-job-count.cson'
 METRIC_IDS=
   'hpe': 'y8cv8jgjfs9p'
   'major': '7xjrf0gpcn2s'
+  'minor': '7xjrf0gpcn2s'
 
 class MeshbluCoreJobCountReporter
   constructor: ({@cluster,@client,@statusPageReporter}) ->

@@ -4,6 +4,7 @@ query = require '../queries/meshblu-amqp-average-response-time.cson'
 METRIC_IDS=
   'hpe': 'w5vkpwrj6f6g'
   'major': 'qj4d433j0sp2'
+  'minor': 'qj4d433j0sp2'
 
 class MeshbluAmqpAverageResponseTimeReporter
   constructor: ({@cluster,@client,@statusPageReporter}) ->

@@ -4,6 +4,7 @@ query = require '../queries/meshblu-core-capacity.cson'
 METRIC_IDS=
   'hpe': '28tpsdvd6nx7'
   'major': '4d6vcs17cyps'
+  'minor': '4d6vcs17cyps'
 
 class MeshbluCoreCapacityReporter
   constructor: ({@cluster,@client,@statusPageReporter}) ->

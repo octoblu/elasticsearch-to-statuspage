@@ -35,6 +35,7 @@ class NanocyteEngineCapacityReporter
       data =
         timestamp: Date.now() / 1000
         value: value
+      console.log data
 
       @statusPageReporter.post @metricId, data, callback
 

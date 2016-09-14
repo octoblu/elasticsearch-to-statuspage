@@ -4,6 +4,7 @@ query = require '../queries/meshblu-mqtt-average-response-time.cson'
 METRIC_IDS=
   'hpe': 'shm8wkm2p8cx'
   'major': 'n8tkgcd1vy76'
+  'minor': 'n8tkgcd1vy76'
 
 class MeshbluMqttAverageResponseTimeReporter
   constructor: ({@cluster,@client,@statusPageReporter}) ->
