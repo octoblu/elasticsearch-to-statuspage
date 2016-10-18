@@ -1,11 +1,20 @@
 language: node_js
 node_js:
-- '6'
+  - '6'
 deploy:
   provider: npm
   email: serveradmin@octoblu.com
   api_key:
-    secure: DRVlTF1CWNG0zmYMWfYxcbHLDEvfaNYj+F0xOwmBz6OgzcAZI7/BuhNiovO1wz4ejG59ygqThljkvefgUS+62nSSCqhZ3nG+LSQ0rWihenWqoQQkD46B4pUUsxyabEHpWUjzBeg3RGbnaotjliXNsQvtorPUp9/CRlmY4YUbMMGIPNrQbwAkn50df2GxMvkYMLN+qeV1VVJ07K5INFH/cDp7C9EYKPF8kkCm0eSu696CQVmWKfzETsrWCCpX9CzSp8q/NOLuciwfawq8JZhWKRfo/Cj5Y92VJc6wy6o6Rcu++7DQtdGXnUrPl++1k2wxRhnFF1NLNzpmWqi9NvZDers3LBTUmd58y40u3TduWoRFs2EXS4jkGk3FpwhMnUlS1LFJOy8/QBJ6znOXPU+DWwyIIyd/4BAab4bCStmJeEjs2gNq5WkFghB0pOGuvOIBOm8Xs9Krz6A8606oGe/+w2F3KiTMLmYVNjqOwp2rJAuibFzK1s3iDLjSfcY0bBI2U62ZFukaogq4jjFZwcDEwyIVZpjg0O8SHIrEGVmsJZ5MTaXfzFUBGQ9MjbrzcRsgKizFctwx8q8gQOzqh3Z8ESZUgfXBALmY7V41SPgyzlH5C6iHiTC/tXPGPiC8YX0eYf1lLDzxo5xp4ZCuERzU7pq1GAZG6ANoMPxX7/WD4Kk=
-  on:
+    secure: >-
+      DRVlTF1CWNG0zmYMWfYxcbHLDEvfaNYj+F0xOwmBz6OgzcAZI7/BuhNiovO1wz4ejG59ygqThljkvefgUS+62nSSCqhZ3nG+LSQ0rWihenWqoQQkD46B4pUUsxyabEHpWUjzBeg3RGbnaotjliXNsQvtorPUp9/CRlmY4YUbMMGIPNrQbwAkn50df2GxMvkYMLN+qeV1VVJ07K5INFH/cDp7C9EYKPF8kkCm0eSu696CQVmWKfzETsrWCCpX9CzSp8q/NOLuciwfawq8JZhWKRfo/Cj5Y92VJc6wy6o6Rcu++7DQtdGXnUrPl++1k2wxRhnFF1NLNzpmWqi9NvZDers3LBTUmd58y40u3TduWoRFs2EXS4jkGk3FpwhMnUlS1LFJOy8/QBJ6znOXPU+DWwyIIyd/4BAab4bCStmJeEjs2gNq5WkFghB0pOGuvOIBOm8Xs9Krz6A8606oGe/+w2F3KiTMLmYVNjqOwp2rJAuibFzK1s3iDLjSfcY0bBI2U62ZFukaogq4jjFZwcDEwyIVZpjg0O8SHIrEGVmsJZ5MTaXfzFUBGQ9MjbrzcRsgKizFctwx8q8gQOzqh3Z8ESZUgfXBALmY7V41SPgyzlH5C6iHiTC/tXPGPiC8YX0eYf1lLDzxo5xp4ZCuERzU7pq1GAZG6ANoMPxX7/WD4Kk=
+  'on':
     tags: true
     branches: true
+notifications:
+  webhooks:
+    - 'https://beekeeper.octoblu.com/webhooks/travis:ci'
+after_success:
+  - npm run coverage
+  - 'npm run mocha:json'
+  - 'bash <(curl -s https://codecov.io/bash)'
+  - 'bash <(curl -s https://codecov.octoblu.com/bash)'
