@@ -1,4 +1,4 @@
-dashdash = require 'dashdash'
+dashdash       = require 'dashdash'
 ReporterRunner = require './src/reporter-runner'
 
 options = [
@@ -29,21 +29,32 @@ options = [
     type: 'string'
     env: 'STATUSPAGE_API_KEY'
     help: 'StatusPage.io API key'
-    helpArg: 'KEY'
   }
   {
     names: ['statuspage-page-id', 'p']
     type: 'string'
     env: 'STATUSPAGE_PAGE_ID'
     help: 'StatusPage.io Page ID'
-    helpArg: 'PAGE_ID'
+  }
+  {
+    names: ['forever', 'f']
+    type: 'bool'
+    env: 'FOREVER'
+    help: 'Use forever mode. (default: false)'
+    default: false
+  }
+  {
+    names: ['interval', 'i']
+    type: 'integer'
+    env: 'INTERVAL_SECONDS'
+    help: 'Interval delay in seconds when running in forever mode'
+    default: 60
   }
   {
     names: ['cluster', 'c']
     type: 'string'
     env: 'CLUSTER'
     help: 'Cluster to use'
-    helpArg: 'PAGE_ID'
   }
 ]
 
@@ -55,7 +66,7 @@ catch e
   process.exit 1
 
 if opts.help
-  help = parser.help(includeEnv: true).trimRight()
+  help = parser.help({includeEnv: true,includeDefaults: true}).trimRight()
   console.log 'usage: node command.js [OPTIONS]\n' + 'options:\n' + help
   process.exit 0
 
@@ -64,6 +75,8 @@ options = {
   pageId: opts.statuspage_page_id,
   statusPageApiKey: opts.statuspage_api_key,
   elasticSearchUri: opts.elasticsearch_uri,
+  timeoutSeconds: opts.timeout,
+  forever: opts.forever,
   dryRun: opts.dry_run,
 }
 reporterRunner = new ReporterRunner options

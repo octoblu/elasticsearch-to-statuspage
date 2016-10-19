@@ -1,5 +1,7 @@
+_             = require 'lodash'
 async         = require 'async'
 elasticsearch = require 'elasticsearch'
+debug         = require('debug')('octoblu-metrics-elasticsearch-to-statuspage:reporter-runner')
 
 MeshbluCoreCapacityReporter                 = require './reporters/meshblu-core-capacity-reporter'
 MeshbluCoreAverageResponseTimeReporter      = require './reporters/meshblu-core-average-response-time-reporter'
@@ -15,13 +17,15 @@ NanoctyeEngineCapacityReporter              = require './reporters/nanocyte-engi
 StatusPageReporter                          = require './reporters/statuspage-reporter'
 
 class ReporterRunner
-  constructor: ({elasticSearchUri,dryRun,cluster,statusPageApiKey,pageId}) ->
+  constructor: ({elasticSearchUri,dryRun,cluster,statusPageApiKey,pageId,intervalSeconds,forever}) ->
     throw new Error 'Missing elasticSearchUri' unless elasticSearchUri?
     throw new Error 'Missing cluster' unless cluster?
     throw new Error 'Missing statusPageApiKey' unless statusPageApiKey?
     throw new Error 'Missing pageId' unless pageId?
     client = elasticsearch.Client {host: elasticSearchUri, dryRun}
     statusPageReporter = new StatusPageReporter {client,pageId,statusPageApiKey,dryRun}
+    @intervalSeconds = intervalSeconds ? 60
+    @forever = forever ? false
 
     @meshbluCoreCapacityReporter = new MeshbluCoreCapacityReporter {cluster,client,statusPageReporter}
     @meshbluCoreAverageResponseTimeReporter = new MeshbluCoreAverageResponseTimeReporter {cluster,client,statusPageReporter}
@@ -36,6 +40,22 @@ class ReporterRunner
     @nanocyteEngineCapacityReporter = new NanoctyeEngineCapacityReporter {cluster,client,statusPageReporter}
 
   run: (callback) =>
+    return @_runForever callback if @forever
+    @_run callback
+
+  _runForever: (callback) =>
+    debug 'running forever'
+    @_run (error) =>
+      return callback error if error?
+      async.forever @_runWithDelay, callback
+
+  _runWithDelay: (callback) =>
+    intervalMs = @intervalSeconds * 1000
+    debug 'delaying for', intervalMs
+    _.delay @_run, intervalMs, callback
+
+  _run: (callback) =>
+    debug 'running...'
     tasks = [
       async.apply @meshbluCoreCapacityReporter.run
       async.apply @meshbluCoreAverageResponseTimeReporter.run
@@ -49,6 +69,6 @@ class ReporterRunner
       async.apply @meshbluCoreJobCountReporter.run
       async.apply @nanocyteEngineCapacityReporter.run
     ]
-    async.parallel tasks, callback
+    async.parallelLimit tasks, 3, callback
 
 module.exports = ReporterRunner
