@@ -1,5 +1,6 @@
 _     = require 'lodash'
 query = require '../queries/meshblu-amqp-average-response-time.cson'
+debug   = require('debug')('octoblu-metrics-elasticsearch-to-statuspage:meshblu-amqp-average-response-time')
 
 METRIC_IDS=
   'hpe': 'w5vkpwrj6f6g'
@@ -28,6 +29,8 @@ class MeshbluAmqpAverageResponseTimeReporter
       data =
         timestamp: Date.now() / 1000
         value: value
+
+      debug 'reporting', data
 
       @statusPageReporter.post @metricId, data, callback
 

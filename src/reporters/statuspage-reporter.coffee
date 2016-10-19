@@ -6,21 +6,20 @@ debug   = require('debug')('octoblu-metrics-elasticsearch-to-statuspage:statuspa
 class StatusPageReporter
   constructor: ({@client,@statusPageApiKey,@pageId,@dryRun}) ->
     debug 'constructed'
-    @post = _.throttle @_postRetry, 1100
+    @post = @_postRetry
 
   _postRetry: (metricId, data, callback) =>
     retryOptions = { times: 3, interval: 1000 }
     async.retry retryOptions, async.apply(@_post, metricId, data), callback
 
   _post: (metricId, data, callback) =>
-    debug '_post', metricId, data
+    debug '_post', { metricId, data }
     options =
       headers:
         Authorization: "OAuth #{@statusPageApiKey}"
       url: "https://api.statuspage.io/v1/pages/#{@pageId}/metrics/#{metricId}/data.json"
       json: {data}
 
-    debug '_post options', options
     if @dryRun
       console.log "Request would be:", options
       return callback()

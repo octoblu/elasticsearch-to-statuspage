@@ -1,5 +1,6 @@
 _     = require 'lodash'
 query = require '../queries/meshblu-xmpp-average-response-time.cson'
+debug   = require('debug')('octoblu-metrics-elasticsearch-to-statuspage:meshblu-xmpp-average-response-time')
 
 METRIC_IDS=
   'hpe': 'bltbt2625xzj'
@@ -29,6 +30,7 @@ class MeshbluXmppAverageResponseTimeReporter
         timestamp: Date.now() / 1000
         value: value
 
+      debug 'reporting', data
       @statusPageReporter.post @metricId, data, callback
 
 module.exports = MeshbluXmppAverageResponseTimeReporter

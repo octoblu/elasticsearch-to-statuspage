@@ -1,5 +1,6 @@
 _     = require 'lodash'
 query = require '../queries/meshblu-core-job-count.cson'
+debug   = require('debug')('octoblu-metrics-elasticsearch-to-statuspage:meshblu-core-job-count')
 
 METRIC_IDS=
   'hpe': 'y8cv8jgjfs9p'
@@ -30,6 +31,7 @@ class MeshbluCoreJobCountReporter
         timestamp: Date.now() / 1000
         value: value
 
+      debug 'reporting', data
       @statusPageReporter.post @metricId, data, callback
 
 module.exports = MeshbluCoreJobCountReporter

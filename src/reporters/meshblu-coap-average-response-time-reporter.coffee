@@ -1,5 +1,6 @@
 _     = require 'lodash'
 query = require '../queries/meshblu-coap-average-response-time.cson'
+debug   = require('debug')('octoblu-metrics-elasticsearch-to-statuspage:meshblu-coap-average-response-time')
 
 METRIC_IDS=
   'hpe': '4ypfhsk4y458'
@@ -29,6 +30,7 @@ class MeshbluCoapAverageResponseTimeReporter
         timestamp: Date.now() / 1000
         value: value
 
+      debug 'reporting', data
       @statusPageReporter.post @metricId, data, callback
 
 module.exports = MeshbluCoapAverageResponseTimeReporter

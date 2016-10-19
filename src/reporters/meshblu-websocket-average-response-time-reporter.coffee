@@ -1,5 +1,6 @@
 _     = require 'lodash'
 query = require '../queries/meshblu-websocket-average-response-time.cson'
+debug   = require('debug')('octoblu-metrics-elasticsearch-to-statuspage:meshblu-websocket-average-response-time')
 
 METRIC_IDS=
   'hpe': 'j4hc2sjc3f5z'
@@ -29,6 +30,7 @@ class MeshbluWebsocketAverageResponseTimeReporter
         timestamp: Date.now() / 1000
         value: value
 
+      debug 'reporting', data
       @statusPageReporter.post @metricId, data, callback
 
 module.exports = MeshbluWebsocketAverageResponseTimeReporter

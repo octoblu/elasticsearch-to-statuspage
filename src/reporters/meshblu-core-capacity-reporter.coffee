@@ -1,5 +1,6 @@
 _     = require 'lodash'
 query = require '../queries/meshblu-core-capacity.cson'
+debug   = require('debug')('octoblu-metrics-elasticsearch-to-statuspage:meshblu-core-capacity')
 
 METRIC_IDS=
   'hpe': '28tpsdvd6nx7'
@@ -35,7 +36,7 @@ class MeshbluCoreCapacityReporter
       data =
         timestamp: Date.now() / 1000
         value: value
-
+      debug 'reporting', data
       @statusPageReporter.post @metricId, data, callback
 
 module.exports = MeshbluCoreCapacityReporter

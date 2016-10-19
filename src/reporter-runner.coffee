@@ -44,9 +44,11 @@ class ReporterRunner
     @_run callback
 
   _runForever: (callback) =>
-    debug 'running forever'
+    debug 'will run forever'
     @_run (error) =>
+      debug 'first run', { error }
       return callback error if error?
+      debug 'running forever...'
       async.forever @_runWithDelay, callback
 
   _runWithDelay: (callback) =>
@@ -69,6 +71,9 @@ class ReporterRunner
       async.apply @meshbluCoreJobCountReporter.run
       async.apply @nanocyteEngineCapacityReporter.run
     ]
-    async.parallelLimit tasks, 3, callback
+    async.series tasks, (error) =>
+      debug 'run done', { error }
+      return callback error if error?
+      callback null
 
 module.exports = ReporterRunner

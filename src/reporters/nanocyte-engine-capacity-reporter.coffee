@@ -1,5 +1,6 @@
 _     = require 'lodash'
 query = require '../queries/nanocyte-engine-capacity.cson'
+debug   = require('debug')('octoblu-metrics-elasticsearch-to-statuspage:nanocyte-engine-capacity')
 
 METRIC_IDS=
   'hpe': 'bztqsg88cs3g'
@@ -35,8 +36,8 @@ class NanocyteEngineCapacityReporter
       data =
         timestamp: Date.now() / 1000
         value: value
-      console.log data
 
+      debug 'reporting', data
       @statusPageReporter.post @metricId, data, callback
 
 module.exports = NanocyteEngineCapacityReporter
