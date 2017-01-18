@@ -8,10 +8,12 @@ METRIC_IDS=
   'minor': '7xjrf0gpcn2s'
 
 class MeshbluCoreJobCountReporter
-  constructor: ({@cluster,@client,@statusPageReporter}) ->
+  constructor: ({@cluster,@client,@statusPageReporter,meshbluSampleRate}) ->
     throw new Error 'Missing cluster' unless @cluster?
     throw new Error 'Missing client' unless @client?
     throw new Error 'Missing statusPageReporter' unless @statusPageReporter?
+    @meshbluSampleRate = parseFloat(meshbluSampleRate || '0.001')
+    debug 'meshbluSampleRate', { @meshbluSampleRate }
 
     @metricId = METRIC_IDS[@cluster]
     throw new Error 'Missing Metric ID for cluster' unless @metricId?
@@ -25,7 +27,7 @@ class MeshbluCoreJobCountReporter
       return callback error if error?
 
       # sample-rate 0.01
-      value = Math.floor((results * 100) / 60)
+      value = Math.floor((results / @meshbluSampleRate) / 60)
 
       data =
         timestamp: Date.now() / 1000

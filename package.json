@@ -1,10 +1,11 @@
 {
   "name": "octoblu-metrics-elasticsearch-to-statuspage",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "description": "Report elasticsearch to statuspage",
   "main": "command.js",
   "scripts": {
-    "test": "istanbul cover _mocha -- -R spec --require coffee-coverage/register-istanbul",
+    "start": "node command.js",
+    "test": "mocha",
     "coverage": "nyc npm test",
     "mocha:json": "env NPM_ENV=test mocha --reporter json > coverage/mocha.json",
     "test:watch": "mocha -w -R mocha-multi --reporter-options spec=-,mocha-osx-reporter=-"

@@ -17,7 +17,9 @@ NanoctyeEngineCapacityReporter              = require './reporters/nanocyte-engi
 StatusPageReporter                          = require './reporters/statuspage-reporter'
 
 class ReporterRunner
-  constructor: ({elasticSearchUri,dryRun,cluster,statusPageApiKey,pageId,intervalSeconds,forever}) ->
+  constructor: (options) ->
+    {dryRun,cluster,forever,meshbluSampleRate} = options
+    {elasticSearchUri,statusPageApiKey,pageId,intervalSeconds} = options
     throw new Error 'Missing elasticSearchUri' unless elasticSearchUri?
     throw new Error 'Missing cluster' unless cluster?
     throw new Error 'Missing statusPageApiKey' unless statusPageApiKey?
@@ -36,7 +38,7 @@ class ReporterRunner
     @meshbluXmppAverageResponseTimeReporter = new MeshbluXmppAverageResponseTimeReporter {cluster,client,statusPageReporter}
     @meshbluAmqpAverageResponseTimeReporter = new MeshbluAmqpAverageResponseTimeReporter {cluster,client,statusPageReporter}
     @meshbluCoapAverageResponseTimeReporter = new MeshbluCoapAverageResponseTimeReporter {cluster,client,statusPageReporter}
-    @meshbluCoreJobCountReporter = new MeshbluCoreJobCountReporter {cluster,client,statusPageReporter}
+    @meshbluCoreJobCountReporter = new MeshbluCoreJobCountReporter {cluster,client,statusPageReporter,meshbluSampleRate}
     @nanocyteEngineCapacityReporter = new NanoctyeEngineCapacityReporter {cluster,client,statusPageReporter}
 
   run: (callback) =>

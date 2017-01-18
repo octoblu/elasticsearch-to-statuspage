@@ -25,6 +25,13 @@ options = [
     helpArg: 'URI'
   }
   {
+    name: 'meshblu-sample-rate'
+    type: 'string'
+    env: 'MESHBLU_SAMPLE_RATE'
+    help: 'Meshblu Sample Rate'
+    default: '0.001'
+  }
+  {
     names: ['statuspage-api-key', 'k']
     type: 'string'
     env: 'STATUSPAGE_API_KEY'
@@ -75,6 +82,7 @@ options = {
   pageId: opts.statuspage_page_id,
   statusPageApiKey: opts.statuspage_api_key,
   elasticSearchUri: opts.elasticsearch_uri,
+  meshbluSampleRate: opts.meshblu_sample_rate,
   timeoutSeconds: opts.timeout,
   forever: opts.forever,
   dryRun: opts.dry_run,
