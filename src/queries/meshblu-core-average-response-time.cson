@@ -12,9 +12,7 @@ body:
             format: 'epoch_millis'
         }
         {
-          query: match: 'type.raw':
-            query: 'meshblu-core-dispatcher:job'
-            type: 'phrase'
+          term: "type.raw": 'meshblu-core-dispatcher:job'
         } ]
         must_not: []
       aggs: avg:

@@ -18,6 +18,7 @@ class MeshbluMqttAverageResponseTimeReporter
 
   search: (callback) =>
     @client.search query, (error, results, statusCode) =>
+      return callback error if error?
       callback null, results.aggregations?.recent.avg.value
 
   run: (callback) =>

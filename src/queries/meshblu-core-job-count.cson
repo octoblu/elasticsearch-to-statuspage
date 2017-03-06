@@ -1,14 +1,12 @@
 index: 'metric:meshblu-core-dispatcher:sampled-2*'
 body:
-  size: 0
-  from: 0
-  filter: bool:
-    must: [ {
-      range: date:
-        gte: 'now-2m'
-        lte: 'now-1m'
-        format: 'epoch_millis'
-    } ]
-    must_not: []
   query:
-    term: 'type.raw': 'meshblu-core-dispatcher:job'
+    bool:
+      must: [ {
+        range: date:
+          gte: 'now-2m'
+          lte: 'now-1m'
+          format: 'epoch_millis'
+      } ]
+      filter:
+        term: 'type.raw': 'meshblu-core-dispatcher:job'

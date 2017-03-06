@@ -11,11 +11,6 @@ body:
             lte: 'now-1m'
             format: 'epoch_millis'
         } ]
-        must_not: [ {
-          query: match: 'type.raw':
-            query: 'meshblu-core-dispatcher:task'
-            type: 'phrase'
-        } ]
       aggs: 'byType':
         terms:
           field: 'type.raw'

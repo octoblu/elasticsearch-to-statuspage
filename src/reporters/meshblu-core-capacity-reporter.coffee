@@ -18,6 +18,7 @@ class MeshbluCoreCapacityReporter
 
   search: (callback) =>
     @client.search query, (error, results, statusCode) =>
+      return callback error if error?
       {buckets} = results.aggregations?.recent.byType
       results = {total: 0}
       _.each buckets, (bucket) =>

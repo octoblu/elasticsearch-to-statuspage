@@ -20,6 +20,7 @@ class MeshbluCoreJobCountReporter
 
   search: (callback) =>
     @client.count query, (error, results, statusCode) =>
+      return callback error if error?
       callback null, results.count
 
   run: (callback) =>
