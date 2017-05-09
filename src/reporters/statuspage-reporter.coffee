@@ -26,8 +26,8 @@ class StatusPageReporter
 
     request.post options, (error, response, body) =>
       debug '_post result', { error, statusCode: response?.statusCode, body }
-      return callback error if error?
-      return callback new Error('update failed') if response.statusCode > 399
+      error ?= new Error('update failed') if response.statusCode > 399
+      console.error error.stack if error?
       callback()
 
 module.exports = StatusPageReporter

@@ -34,6 +34,7 @@ class MeshbluCoreCapacityReporter
 
       results.job ?= 0
       value = Math.floor((results.job / results.total) * 100)
+      value = 0 if _.isNaN value
       data =
         timestamp: Date.now() / 1000
         value: value
